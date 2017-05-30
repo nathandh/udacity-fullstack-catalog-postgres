@@ -2,20 +2,32 @@
 Nathan Hernandez
 Udacity FullStack NanoDegree
 Database Schema/Models
+    -ver 0.2 - 05/30/17 (PostgreSQL version)
     -ver 0.1 - 05/2017
 """
 
 import sys
 import datetime
+import getpass
 
 from collections import OrderedDict
 
 from sqlalchemy import (Column, ForeignKey, Integer, String, Text,
                         DateTime, Enum, UniqueConstraint, create_engine)
+from sqlalchemy.engine.url import URL
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.sql import func
 from sqlalchemy.schema import Table
+
+DATABASE = {
+    'drivername': 'postgres',
+    'host': '',
+    'port': '5432',
+    'username': '%s' % getpass.getuser(), 
+    'password': '',
+    'database': 'udacity_catalog'
+}
 
 Base = declarative_base()
 
@@ -58,9 +70,9 @@ class Category(Base, SerializableOrdered):
     name = Column(String(80), nullable=False, unique=True)
     description = Column(Text, nullable=False)
 
-    created_by = Column(String, ForeignKey('user.email'))
+    created_by = Column(Integer, ForeignKey('user.id'))
     created = Column(DateTime(timezone=True), server_default=func.now())
-    last_update_by = Column(String, ForeignKey('user.email'))
+    last_update_by = Column(Integer, ForeignKey('user.id'))
     updated = Column(DateTime(timezone=True), onupdate=func.now())
 
     items = relationship("Item", order_by="Item.id",
@@ -77,9 +89,9 @@ class Item(Base, SerializableOrdered):
     name = Column(String(80), nullable=False)
     description = Column(Text, nullable=False)
 
-    created_by = Column(String, ForeignKey('user.email'))
+    created_by = Column(Integer, ForeignKey('user.id'))
     created = Column(DateTime(timezone=True), server_default=func.now())
-    last_update_by = Column(String, ForeignKey('user.email'))
+    last_update_by = Column(Integer, ForeignKey('user.id'))
     updated = Column(DateTime(timezone=True), onupdate=func.now())
 
     category_id = Column(Integer, ForeignKey('category.id'), nullable=False)
@@ -129,5 +141,5 @@ class Role(Base, SerializableOrdered):
                          order_by="User.id")
 
 
-engine = create_engine('sqlite:///itemcatalog.db')
+engine = create_engine(URL(**DATABASE))
 Base.metadata.create_all(engine)

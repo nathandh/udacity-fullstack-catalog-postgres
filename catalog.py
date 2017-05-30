@@ -3,6 +3,7 @@ Nathan D. Hernandez
 Udacity FullStack NanoDegree
 
 Item Catalog Application:
+    - ver: 0.2  05/30/17 (PostgreSQL version)
     - ver: 0.1  05/2017
 """
 
@@ -17,8 +18,10 @@ from flask import (Flask, render_template, request, redirect,
                    session as login_session)
 
 from sqlalchemy import create_engine, desc, exc
+from sqlalchemy.engine.url import URL
 from sqlalchemy.orm import sessionmaker, exc as orm_exc
-from database_setup import Base, Category, Item, LoginType, User, Role
+from database_setup import (Base, Category, Item, LoginType, User, Role,
+                            DATABASE)
 
 # OAuth2 related imports
 from oauth2client.client import flow_from_clientsecrets, FlowExchangeError
@@ -28,7 +31,7 @@ CLIENT_ID = json.loads(
 
 app = Flask(__name__)
 
-engine = create_engine('sqlite:///itemcatalog.db')
+engine = create_engine(URL(**DATABASE))
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
@@ -203,7 +206,7 @@ def newCategory():
             try:
                 # Create our Category
                 new_categ = Category(name=name, description=desc,
-                                     created_by=user.email)
+                                     created_by=user.id)
 
                 session.add(new_categ)
                 session.commit()
@@ -257,7 +260,7 @@ def editCategory(category):
             try:
                 curr_categ.name = name
                 curr_categ.description = desc
-                curr_categ.last_update_by = user.email
+                curr_categ.last_update_by = user.id
 
                 session.commit()
 
@@ -392,7 +395,7 @@ def newCatalogItem():
             try:
                 # Create our Item
                 new_item = Item(name=name, description=desc, category=category,
-                                created_by=user.email)
+                                created_by=user.id)
 
                 session.add(new_item)
                 session.commit()
@@ -450,7 +453,7 @@ def editCatalogItem(category, item):
                 curr_item.name = name
                 curr_item.description = desc
                 curr_item.category = category
-                curr_item.last_update_by = user.email
+                curr_item.last_update_by = user.id
 
                 session.commit()
 
