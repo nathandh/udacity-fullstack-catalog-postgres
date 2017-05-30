@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}
+	{{curr_item.name}} Item INFO | Category Item App
+{% endblock %}
+
+{% block content %}
+	<div class="item-info">
+		<h3>{{curr_item.name}} 
+			<span class="item-info-categ">
+				({{curr_item.category.name}})
+			</span>
+		</h3>
+		Description: {{curr_item.description}}
+	</div>
+	{% if is_contrib == True %}
+		<a href="/catalog/{{curr_item.category.name}}/{{curr_item.name}}/edit/">
+			Edit
+		</a> | 
+		<a href="/catalog/{{curr_item.category.name}}/{{curr_item.name}}/delete/">
+			Delete
+		</a>
+	{% endif %}<br/><br/>
+{% endblock %}
+
+{% block extra_api_links %}
+	 | <a href="/catalog/{{curr_item.category.name}}/{{curr_item.name}}/json/">{{curr_item.name}} JSON</a>
+{% endblock %}

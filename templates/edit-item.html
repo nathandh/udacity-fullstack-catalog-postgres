@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}
+	EDIT item: {{item.name}} | Category Item App	
+{% endblock %}
+
+{% block content %}
+	<h3>Edit Item</h3>
+	<div class="edit-item-form">
+		<form method="POST" enctype="multipart/form-data" 
+			action="/catalog/{{item.category.name}}/{{item.name}}/edit/">
+			Name: <input name="name" value="{{item.name}}" type="text">
+			Description: <textarea name="desc">{{item.description}}</textarea>
+			Category: <select name="category">
+					       {% for category in categories %}
+								{% if item.category == category %}
+									<option value="{{category.name}}" 
+										selected="selected">
+										{{category.name}}
+									</option>
+								{% else %}
+									<option value="{{category.name}}">
+										{{category.name}}
+									</option>
+								{% endif %}
+						   {% endfor %}
+					  </select>
+			<button type="submit">Edit Item</button>
+		</form>
+	</div>
+{% endblock %}

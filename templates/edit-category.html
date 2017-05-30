@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}
+	EDIT category: {{category.name}} | Category Item App	
+{% endblock %}
+
+{% block content %}
+	<h3>Edit Category</h3>
+	<div class="edit-category-form">
+		<form method="POST" enctype="multipart/form-data" 
+			action="/catalog/{{category.name}}/edit/">
+			Name: <input name="name" value="{{category.name}}" type="text">
+			Description: <textarea name="desc">{{category.description}}</textarea>
+			<input type="hidden" name="category" value="{{category.name}}">
+			<button type="submit">Edit Category</button>
+		</form>
+	</div>
+{% endblock %}

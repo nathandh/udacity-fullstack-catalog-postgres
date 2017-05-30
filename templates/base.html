@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{% block title %} Item Catalog App | Udacity {% endblock %}</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!--[if lt IE 9]>
+		<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries/js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href={{ url_for('static', 
+										     filename="css/catalog.css") }} />
+	{# For extra <script> and <link> imports on templates as needed #}
+	{% block head_extras %}
+	{% endblock head_extras %}
+</head>
+
+<body>
+	<div id="top" class="top">
+		<div class="app-logo">
+			<img src="{{ url_for('static', filename="images/books.jpg") }}"
+				alt="Item Catalog App Logo">
+		</div>
+		<div class="app-title">
+			<h2><a href="/catalog/">Catalog App</a></h2>
+		</div>
+		<div class="login-logout-link">
+			{% if 'email' not in session %}
+				<a href="/login/" class="login-logout-btn">Login</a>
+			{% else %}
+				<a href="/logout/" class="login-logout-btn">Logout</a>
+			{% endif %}
+		</div>
+	</div>
+	<div id="messages" class="messages">
+		{% with messages = get_flashed_messages() %}
+			{% if messages %}
+				<ul class="flashes">
+				{% for message in messages %}
+					<li>{{message}}</li>
+				{% endfor %}
+				</ul>
+			{% endif %}
+		{% endwith %}
+	</div>
+	<div id="content" class="content">
+		{% block content %}
+		{% endblock %}
+	</div>
+	<div class="home-link">
+		<a href="/catalog/">Home</a><br/>
+	</div>
+	<div id="footer" class="footer">
+		{% block footer %}
+			{# Text based Links/Trails and API Endpoints #}
+			<hr>
+			<a href="/catalog/">Home</a> | 	
+			<a href="/catalog.json">Full Catalog JSON</a> | 
+			<a href="/catalog/categories/json/">All Categies JSON</a> | 
+			<a href="/catalog/items/json/">All Items JSON</a> | 
+			<a href="/catalog/login-types/json/">All LoginTypes JSON</a> | 
+			<a href="/catalog/roles/json/">All User ROLES JSON</a> | 
+			<a href="/catalog/users/json/">All USERS JSON</a>
+			{% block extra_api_links %}
+			{% endblock %}
+		{% endblock %}
+	</div>
+</body>
+</html>

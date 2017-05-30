@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}
+	USER Listing | Category Item App
+{% endblock %}
+
+{% block content %}
+	{% if users|count > 0 %}
+		{% for user in users %}
+			<div class="user">
+				{{user.id}}
+				{{user.email}}<br/>
+				Roles:
+				{% for role in user.roles %}
+					{{role.permission}}
+				{% endfor %}
+				<br/><a href="/catalog/">HOME</a>
+				<br/>========================
+			</div>
+		{% endfor %}
+	{% else %}
+		<p>No Users</p>
+	{% endif %}
+{% endblock %}

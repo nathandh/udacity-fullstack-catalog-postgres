@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}
+	DELETE category: {{category.name}} | Category Item App	
+{% endblock %}
+
+{% block content %}
+	<h3>Delete Category</h3>
+	<h4>{{category.name}}</h4>
+	<div>Are you sure you want to delete this category?<br/>
+		 All items associated with the category will be deleted also!
+	</div>
+	<div class="delete-category-form">
+		<form method="POST" enctype="multipart/form-data" 
+			action="/catalog/{{category.name}}/delete/">
+			<input type="hidden" name="name" value="{{category.name}}">
+			<button type="submit">Delete</button>
+		</form>
+	</div>
+{% endblock %}

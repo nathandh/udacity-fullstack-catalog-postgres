@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}
+	NEW category | Category Item App	
+{% endblock %}
+
+{% block content %}
+	<h3>*New* Category</h3>
+	<div class="new-category-form">
+		<form method="POST" enctype="multipart/form-data" 
+			action="/catalog/category/new/">
+			Name: <input name="name" type="text">
+			Description: <textarea name="desc"></textarea>
+			<button type="submit">Create Category</button>
+		</form>
+	</div>
+{% endblock %}

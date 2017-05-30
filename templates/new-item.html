@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}
+	NEW item | Category Item App	
+{% endblock %}
+
+{% block content %}
+	<h3>*New* Item</h3>
+	<div class="new-item-form">
+		<form method="POST" enctype="multipart/form-data" 
+			action="/catalog/item/new/">
+			Name: <input name="name" type="text">
+			Description: <textarea name="desc"></textarea>
+			Category: <select name="category">
+					       {% for category in categories %}
+								<option value="{{category.name}}">
+									{{category.name}}
+								</option>
+						   {% endfor %}
+					  </select>
+			<button type="submit">Create Item</button>
+		</form>
+	</div>
+{% endblock %}

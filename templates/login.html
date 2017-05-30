@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block head_extras %}
+	<script 
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+	</script>
+	<script
+		src="https://apis.google.com/js/client:platform.js?onload=start" 
+		ascync defer>
+	</script>
+{% endblock %}
+
+{% block content %}
+	<div class="oauth-header">
+		<h1>Login with OAuth 2.0</h1>
+	</div>
+	<div id="gSigninButton">
+		<h4>Login with Google:</h4>
+		<span class="g-signin"
+			data-scope="openid email profile"
+			data-clientid="759333530786-qtbejoccaa9r1nbvtqdrv9l0e3oim4ru.apps.googleusercontent.com"
+			data-redirecturi="postmessage"
+			data-accesstype="offline"
+			data-cookiepolicy="single_host_origin"
+			data-callback="gSigninCallback"
+			data-approvalprompt="force">
+		</span>
+	</div>
+	<div id="result"></div>
+
+	<script>
+		function gSigninCallback(authResult) {
+			if (authResult['code']) {
+				// Hide our Login button
+				$('#gSigninButton').attr('style', 'display: none');
+				/* Send one-time-code to server,
+				   On response write 'Login Successful' msg,
+				   Redirect back to Catalog HOME */
+				$.ajax({
+					type: 'POST',
+					url: '/gconnect?state={{STATE}}',
+					processData: false,
+					contentType: 'application/octet-stream; charset=utf-8',
+					data: authResult['code'],
+					success: function(result) {
+						if (result) {
+							$('#result').html('Login Successful!<br/>' + result
+											  + '<br/>Redirecting...')
+							setTimeout(function() {
+								window.location.href = "/catalog/";
+							}, 4000);
+						} else if (authResult['error']) {
+							console.log("There was a Google login error: " +
+										authResult['error']);
+						} else {
+							$('#result').html("Failed to make server side " +
+											  "call. Check configs and " +
+											  "console.");
+						}
+					}
+				});
+			}
+		}
+	</script>
+{% endblock %}

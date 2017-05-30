@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}
+	HOME | Category Item App
+{% endblock %}
+
+{% block content %}
+	<div class="catalog-main">
+		{% block left_content %}
+		<div class="left-content">
+			{% if is_admin == True %}
+				<a href="/catalog/category/new/">Add Category</a>
+			{% endif %}
+			<h3>Categories</h3>
+			{% if categories|count > 0 %}
+				{% for category in categories %}
+					<div class="category">
+						<a href="/catalog/{{category.name}}/items/">
+							{{category.name}}</a><br/> 
+						{% if is_admin == True %}
+							<div class="category-admin">
+								<br/>*Admin:<br/>
+								| <a href="/catalog/{{category.name}}/">
+									Manage {{category.name}}</a> | <br/>
+								<hr>
+							</div>
+						{% endif %}
+						<br/>
+					</div>
+				{% endfor %}
+			{% else %}
+				<p>No Categories</p>
+			{% endif %}
+		</div>
+		{% endblock %}
+		{% block right_content %}
+		<div class="right-content">
+			{% if is_contrib == True %}
+				<a href="/catalog/item/new/">Add Item</a>
+			{% endif %}
+			{% if latest_items %}
+				<h3>Latest Items ({{latest_items|count}})</h3>
+				{% if latest_items|count > 0 %}
+					<h4><a href="/catalog/full/">--> view ALL ...</a></h4>
+					{% for item in latest_items %}
+						<div class="item">
+							<a href="/catalog/{{item.category.name}}/{{item.name}}/">
+								{{item.name}}</a>
+							<span class="item-categ">
+								({{item.category.name}})
+							</span>
+						</div>
+					{% endfor %}
+				{% else %}
+					<p>No Latest Items</p>
+				{% endif %}
+			{% elif all_items %}
+				<h3>All Items ({{all_items|count}})</h3>
+				{% if all_items|count > 0 %}
+					{% for item in all_items %}
+						<div class="item">
+							<a href="/catalog/{{item.category.name}}/{{item.name}}/">
+								{{item.name}}</a>
+							<span class="item-categ">
+								({{item.category.name}})
+							</span>
+						</div>
+					{% endfor %}
+				{% endif %}
+			{% endif %}
+		</div>
+		{% endblock %}
+	</div>
+{% endblock %}
