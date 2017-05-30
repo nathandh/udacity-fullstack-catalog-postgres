@@ -11,7 +11,7 @@ The following 'MAIN' files are contained in this project:
 			* Provides the HOME page routing for the APP
 			* Limits ITEMS displayed to last 10 most recent
 		2. **`'/full/'`**
-			* Route to VIEW all ITEMS in the SQLite database
+			* Route to VIEW all ITEMS in the database
 		3. **`'/catalog/category/new/'`**
 			* CREATE category endpoint
 			* Requires 'admin' role privilege
@@ -64,7 +64,7 @@ The following 'MAIN' files are contained in this project:
 		8. **`'/users.json'`** OR **`'/catalog/users/json/'`**
 			* Outputs all Users in JSON
 
-* **database_setup.py** - The SQLite DB Schema / Model file.
+* **database_setup.py** - The DB Schema / Model file.
 	* Running the following command creates out 'itemcatalog.db' file:
 	```
 	python database_setup.py
@@ -87,13 +87,20 @@ The following 'MAIN' files are contained in this project:
 	```
 	python test_data.py
 	```
+* **udacity_catalog.sql** - DROP/CREATE SQL for PostgreSQL implementation
+	* Run with the following command sequence:
+	```
+	psql
+	\i udacity_catalog.sql
+	\q
+	```
 
 ## Installation:
 #### System Requirements:
 1. Python 2 (e.g. 2.7.x)
 2. Flask libraries
 3. SQLAlchemy libraries
-4. SQLite
+4. PostgreSQL (modern version)
 
 #### Obtaining the Code:
 * Clone the repository from GitHub
@@ -102,9 +109,12 @@ git clone https://github.com/nathandh/udacity-fullstack-catalog.git
 ```
 
 #### Database Setup:
-1. Create the 'itemcatalog.db' SQLite database:
+1. Create the Postgres database:
 ```
 cd udacity-fullstack-catalog
+psql
+\i udacity_catalog.sql
+\q
 python database_setup.py
 ```
 2. Populate the database with initial Test data
