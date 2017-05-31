@@ -26,8 +26,9 @@ from database_setup import (Base, Category, Item, LoginType, User, Role,
 # OAuth2 related imports
 from oauth2client.client import flow_from_clientsecrets, FlowExchangeError
 
+APP_PATH = '/opt/webapps/udacity-fullstack-catalog-postgres/'
 CLIENT_ID = json.loads(
-                   open('client_secrets.json', 'r').read())['web']['client_id']
+                   open(APP_PATH + 'client_secrets.json', 'r').read())['web']['client_id']
 
 app = Flask(__name__)
 

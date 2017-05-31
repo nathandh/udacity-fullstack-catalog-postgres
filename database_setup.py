@@ -22,10 +22,10 @@ from sqlalchemy.schema import Table
 
 DATABASE = {
     'drivername': 'postgres',
-    'host': '',
+    'host': '127.0.0.1',
     'port': '5432',
-    'username': '%s' % getpass.getuser(), 
-    'password': '',
+    'username': 'catalog', 
+    'password': '2323jkjSHFKnm60s',
     'database': 'udacity_catalog'
 }
 
