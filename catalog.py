@@ -547,9 +547,10 @@ def gconnect():
     else:
         code = request.data
         try:
+            client_secrets_path = APP_PATH + 'client_secrets.json'
             # Upgrade auth code into credentials object
-            oauth_flow = flow_from_clientsecrets('client_secrets.json',
-                                                 scope='')
+            oauth_flow = flow_from_clientsecrets(client_secrets_path,
+                                     scope='')
             oauth_flow.redirect_uri = 'postmessage'
             credentials = oauth_flow.step2_exchange(code)
         except FlowExchangeError:
